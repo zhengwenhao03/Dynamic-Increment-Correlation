@@ -7,15 +7,15 @@ authors:
   - family-names: "Wei"
     given-names: "Han"
     affiliation: "Research Institute of Highway, Ministry of Transport, China"
-title: "Bridge-Hinge-Joint-PCC-Monitor"
+title: "Monitoring and Evaluation of Hinge Joint Condition in Precast Hollow Slab Bridges Based on Correlation of High-Frequency Dynamic Strain Increments"
 version: 1.0.0
 doi: "10.3390/sensorsXXXXXX" # 待论文录用分配 DOI 后可在此处更新
 date-released: 2026-05-28
-url: "https://github.com/YourUsername/Bridge-Hinge-Joint-PCC-Monitor"
+url: "https://github.com/zhengwenhao03/Dynamic-Increment-Correlation"
 keywords:
   - structural health monitoring
-  - bridge engineering
-  - hinge joint degradation
-  - pearson correlation coefficient
-  - edge computing
+  - precast hollow slab bridge
+  - damage detection
+  - response correlation
+  - signal separation
 license: "MIT"
