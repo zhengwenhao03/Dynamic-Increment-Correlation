@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software or simulation framework in your research, please cite it as below."
+authors:
+  - family-names: "Zheng"
+    given-names: "Wenhao"
+    affiliation: "Research Institute of Highway, Ministry of Transport, China"
+  - family-names: "Wei"
+    given-names: "Han"
+    affiliation: "Research Institute of Highway, Ministry of Transport, China"
+title: "Bridge-Hinge-Joint-PCC-Monitor"
+version: 1.0.0
+doi: "10.3390/sensorsXXXXXX" # 待论文录用分配 DOI 后可在此处更新
+date-released: 2026-05-28
+url: "https://github.com/YourUsername/Bridge-Hinge-Joint-PCC-Monitor"
+keywords:
+  - structural health monitoring
+  - bridge engineering
+  - hinge joint degradation
+  - pearson correlation coefficient
+  - edge computing
+license: "MIT"
