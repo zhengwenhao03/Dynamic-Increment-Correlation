@@ -1,4 +1,13 @@
-# Real-Time Bridge Hinge Joint Monitoring via High-Frequency Dynamic Strain Increment Correlation
+# 📢 开源声明 / Open Source Declaration
+
+本仓库包含以下学术论文的官方完整源代码：
+This repository contains the official and complete source code for the following academic research paper:
+
+* **Paper Title:** Monitoring and Evaluation of Hinge Joint Condition in Precast Hollow Slab Bridges Based on Correlation of High-Frequency Dynamic Strain Increments
+* **Authors:** Wenhao Zheng, Han Wei, etc.
+* **Affiliation:** Research Institute of Highway, Ministry of Transport, Beijing, China
+
+---
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -24,7 +33,6 @@ The repository is structured into two standalone modules corresponding to the th
 
 ```text
 ├── .gitignore               # Standard cache and graphic exclusion filter
-├── CITATION.cff             # One-click BibTeX citation configuration
 ├── LICENSE                  # MIT permissive open-source license
 ├── README.md                # Project homepage and user manual
 ├── requirements.txt         # Minimal environmental dependency list
