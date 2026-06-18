@@ -14,7 +14,9 @@ class RealTimeBridgeMonitor:
             bridge_freq_hz, 
             num_channels, 
             Fs=50, 
-            ma_threshold=2., 
+            ma_threshold=2, 
+            ma_length_multiple=2.0,  # Moving average window length as a multiple of the 1st-order modal period
+            low_cutoff_multiplier=0.7,  # Ormsby filter low cut-off frequency as a multiple of the 1st-order modal frequency
             snr_threshold=5, 
             indicator_smooth_size=50
         ):
@@ -28,9 +30,9 @@ class RealTimeBridgeMonitor:
         self.ma_threshold = ma_threshold
         self.snr_threshold = snr_threshold  # Threshold for verifying channel loading validity
         self.num_channels = num_channels
-        
+        self.low_cutoff_multiplier = low_cutoff_multiplier
         # Core physical parameter: number of samples within a 2-period moving window
-        self.W = int((2.0 / bridge_freq_hz[0]) * Fs)
+        self.W = int((ma_length_multiple / bridge_freq_hz[0]) * Fs)
         
         # O(1) circular buffer for real-time rolling moving average (MA) computation
         self.rolling_window = deque(maxlen=self.W)
@@ -144,8 +146,8 @@ class RealTimeBridgeMonitor:
             # 4. Extract dynamic strain increments using cascaded zero-phase Ormsby filtering
             static_data = ormsby(
                 phys_raw, 
-                self.bridge_freq_hz[0] * 0.6, 
-                self.bridge_freq_hz[0] * 0.8, 
+                self.bridge_freq_hz[0] * (self.low_cutoff_multiplier - 0.1),
+                self.bridge_freq_hz[0] * (self.low_cutoff_multiplier + 0.1),
                 1 / self.Fs
             )
 
@@ -439,7 +441,7 @@ if __name__ == '__main__':
     Fs = 50
     
     print("Executing baseline streaming processing across 12 monitoring hours...")
-    strain_history, _, freq_Hz = simulate_bridge_strain(
+    strain_history, vehicle_records, freq_Hz = simulate_bridge_strain(
         HOUR=12, Fs=Fs, DT=20,
         LL=LL, MM=MM, NN=NN, Density=Density, Area=Area,
         E=E, I=I, k_hinge=k_hinge, y_sensor=y_sensor,
@@ -452,6 +454,8 @@ if __name__ == '__main__':
         num_channels=strain_history.shape[1], 
         Fs=Fs, 
         ma_threshold=2, 
+        ma_length_multiple=2.0,
+        low_cutoff_multiplier=0.3,
         snr_threshold=5, 
         indicator_smooth_size=100
     )
@@ -460,6 +464,14 @@ if __name__ == '__main__':
     for sample in strain_history:
         monitor.process_sample(sample)
     print("Streaming simulation successfully completed.")
+
+    print("\n" + "="*50)
+    print(f"1. Number of vehicles generated: {len(vehicle_records)}")
+    print(f"2. Number of bridge crossing events detected: {len(monitor.correlations_history)}")
+
+    discard_rate = (1 - len(monitor.correlations_history) / len(vehicle_records)) * 100 if len(vehicle_records) > 0 else 0
+    print(f"--> Discard Rate: {discard_rate:.2f}%")
+    print("="*50 + "\n")
 
     # Execute verification plotting pipeline
     plot_single_vehicle_events_overlay(monitor, strain_history, ch_idx=0, plot_minutes=[20, 30], out_name='event_extraction_long.png')

@@ -44,7 +44,7 @@ def compute_local_degradation_indicators(alpha_list, damaged_joints_list, sim_ho
         # Assemble localized stiffness matrix vector (折减矩阵列向量化构造)
         k_hinge_array = np.full((num_joints, 1), k_hinge_baseline)
         for j in damaged_joints_list:
-            k_hinge_array[j, 0] = k_hinge_baseline * alpha
+            k_hinge_array[j, 0] = k_hinge_baseline * (1 - alpha)
         
         # Enforce seed synchronization to eliminate stochastic traffic variations
         SEED = 42
@@ -114,7 +114,7 @@ def plot_damaged_joints_comparison(alpha_list, dyn_indicators_all, tot_indicator
     plt.xlabel(r'Local Stiffness Reduction Factor ($\alpha$)', fontsize=12, fontweight='bold')
     plt.ylabel('Converged Indicator Value', fontsize=12, fontweight='bold')
     plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend(loc='lower right', fontsize=11, framealpha=0.9, edgecolor='black')
+    plt.legend(loc='lower left', fontsize=11, framealpha=0.9, edgecolor='black')
     
     plt.tight_layout()
     plt.savefig('local_compare.pdf', dpi=600, bbox_inches='tight')
@@ -148,7 +148,7 @@ def plot_multi_joint_degradation(alpha_list, dyn_indicators_all, target_joints_l
     plt.ylabel('Proposed Indicator Value', fontsize=13, fontweight='bold')
     
     plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend(loc='lower right', ncol=1, fontsize=10, framealpha=0.9, edgecolor='black')
+    plt.legend(loc='lower left', ncol=1, fontsize=10, framealpha=0.9, edgecolor='black')
     
     plt.tight_layout()
     plt.savefig('local_spatial_localization.pdf', dpi=600, bbox_inches='tight')

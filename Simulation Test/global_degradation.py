@@ -37,7 +37,7 @@ def compute_global_degradation_indicators(alpha_list, sim_hours=6):
     tot_indicators_all = {j: [] for j in range(num_joints)}
     
     for alpha in tqdm(alpha_list, desc="Global stiffness scanning"):
-        current_k_hinge = k_hinge_baseline * alpha
+        current_k_hinge = k_hinge_baseline * (1 - alpha)
         
         # Enforce seed synchronization to eliminate stochastic traffic variations
         SEED = 42
@@ -101,7 +101,7 @@ def plot_indicator_comparison(alpha_list, dyn_indicators_all, tot_indicators_all
     plt.xlabel(r'Global Stiffness Reduction Factor ($\alpha$)', fontsize=12, fontweight='bold')
     plt.ylabel('Converged Indicator Value', fontsize=12, fontweight='bold')
     plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend(loc='lower right', fontsize=11, framealpha=0.9, edgecolor='black')
+    plt.legend(loc='lower left', fontsize=11, framealpha=0.9, edgecolor='black')
     
     plt.tight_layout()
     plt.savefig('global_compare.pdf', dpi=600, bbox_inches='tight')
@@ -134,7 +134,7 @@ def plot_multi_joint_degradation(alpha_list, dyn_indicators_all, target_joints_l
     plt.ylabel('Proposed Indicator Value', fontsize=13, fontweight='bold')
     
     plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend(loc='lower right', ncol=1, fontsize=10, framealpha=0.9, edgecolor='black')
+    plt.legend(loc='lower left', ncol=1, fontsize=10, framealpha=0.9, edgecolor='black')
     
     plt.tight_layout()
     plt.savefig('global_multi.pdf', dpi=600, bbox_inches='tight')

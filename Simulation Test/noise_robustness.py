@@ -43,7 +43,7 @@ def compute_noise_robustness(alpha_list, snr_levels, target_joint, sim_hours=6):
             
             # Construct localized multi-joint stiffness topology matrix array
             k_hinge_array = np.full((num_joints, 1), k_hinge_baseline)
-            k_hinge_array[target_joint, 0] = k_hinge_baseline * alpha
+            k_hinge_array[target_joint, 0] = k_hinge_baseline * (1 - alpha)
             
             # Enforce seed synchronization to secure identical random traffic configurations
             SEED = 42
@@ -107,7 +107,7 @@ def plot_noise_robustness(alpha_list, results_dyn, snr_levels, target_joint):
     plt.ylabel('Proposed Indicator Value', fontsize=12, fontweight='bold')
     
     plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend(loc='lower right', fontsize=11, framealpha=0.9, edgecolor='black')
+    plt.legend(loc='lower left', fontsize=11, framealpha=0.9, edgecolor='black')
     
     plt.tight_layout()
     plt.savefig('noise_robustness.pdf', dpi=600, bbox_inches='tight')

@@ -84,7 +84,7 @@ def apply_boundary_constraints(matrix, del_indices):
 
 def simulate_bridge_strain(
     HOUR=24, Fs=50, LL=20, MM=8, NN=21, Density=2500, Area=0.51, E=3.45e10, I=0.05, k_hinge=5e6, y_sensor=0.45,
-    DT=30, vehicleWeight_mu1=2.0, vehicleWeight_sigma1=0.5, vehicleWeight_mu2=15, vehicleWeight_sigma2=4, 
+    DT=20, vehicleWeight_mu1=2.0, vehicleWeight_sigma1=0.5, vehicleWeight_mu2=15, vehicleWeight_sigma2=4, 
     vehicleWeight_mu3=42, vehicleWeight_sigma3=5, P1=0.65, P2=0.2, vechileSpeed_mu=80, vehicleSpeed_sigma=10,
     add_noise=False, SNR=30
 ):
@@ -107,7 +107,12 @@ def simulate_bridge_strain(
     a1 = 2 * 0.03 / (omega_eig[0] + omega_eig[2])
     C = a0 * M + a1 * K
     
-    P_traffic, vehicle_records = get_traffic_load(HOUR, LL, MM, NN, Fs, DT, vehicleWeight_mu1, vehicleWeight_sigma1, vehicleWeight_mu2, vehicleWeight_sigma2, vehicleWeight_mu3, vehicleWeight_sigma3, P1, P2, vechileSpeed_mu, vehicleSpeed_sigma)
+    P_traffic, vehicle_records = get_traffic_load(
+        HOUR, LL, MM, NN, Fs, DT, 
+        vehicleWeight_mu1, vehicleWeight_sigma1, 
+        vehicleWeight_mu2, vehicleWeight_sigma2, 
+        vehicleWeight_mu3, vehicleWeight_sigma3, 
+        P1, P2, vechileSpeed_mu, vehicleSpeed_sigma)
     P_fft = fft.fft(P_traffic, n=Cols, axis=1)
     P_all = np.zeros((2 * MM * (NN - 1), Cols), dtype=complex)
     P_all[MM : -MM : 2, :] = P_fft
@@ -142,5 +147,5 @@ def simulate_bridge_strain(
 if __name__ == '__main__':
     print("Solver kernel verification...")
     # Standard check pipeline to verify dimensional consistency
-    strain_history, _, freq_Hz = simulate_bridge_strain(HOUR=0.1, Fs=50, k_hinge=5e6)
+    strain_history, vehicle_records, freq_Hz = simulate_bridge_strain(HOUR=0.1, Fs=50, k_hinge=5e6)
     print(f"Success. Matrix shape output: {strain_history.shape}, Fundamental frequency: {freq_Hz[0]:.2f} Hz")
