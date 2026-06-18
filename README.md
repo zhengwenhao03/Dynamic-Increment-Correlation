@@ -3,7 +3,7 @@
 本仓库包含以下学术论文的官方完整源代码：
 This repository contains the official and complete source code for the following academic research paper:
 
-* **Paper Title:** Monitoring and Evaluation of Hinge Joint Condition in Precast Hollow Slab Bridges Based on Correlation of High-Frequency Dynamic Strain Increments
+* **Paper Title:** Strain-based Monitoring Methodology and Numerical Validation for the Evaluation of Transverse Connection Condition in Precast Multi-Girder Bridges
 * **Authors:** Wenhao Zheng, Han Wei, etc.
 * **Affiliation:** Research Institute of Highway, Ministry of Transport, Beijing, China
 
