@@ -13,7 +13,7 @@ def plot_pcc_weight_evolution():
 
     # Select representative vehicle weights (in metric tons, t)
     # Corresponding to light trucks, medium trucks, heavy trucks, and overloaded vehicles
-    P_tons_list = [10, 20, 40, 60]   
+    P_tons_list = [10, 20, 40, 60]
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
     linestyles = ['-', '--', '-.', ':']
 

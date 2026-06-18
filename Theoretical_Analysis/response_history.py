@@ -2,14 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def get_response(
-    L=20.0,          # Span length (m)
+    L=25.0,          # Span length (m)
     d=2500,          # Material density (kg/m^3)
-    A=0.51,          # Cross-sectional area (m^2)
-    E=3.45e10,       # Elastic modulus of concrete (N/m^2)
-    I=0.05,          # Moment of inertia for a single girder (m^4)
-    k=1e6,           # Equivalent shear stiffness of the hinge joint (N/m^2)
-    y=0.45,          # Distance from neutral axis to beam bottom (m)
-    P=1.0e5,         # Single-axle heavy vehicle load (N), approx. 10 tons
+    A=0.9220,        # Cross-sectional area (m^2)
+    E=3.25e10,       # Elastic modulus of concrete (N/m^2)
+    I=0.4361,        # Moment of inertia for a single girder (m^4)
+    k=5e6,           # Equivalent shear stiffness of the hinge joint (N/m^2)
+    y=1.25,          # Distance from neutral axis to beam bottom (m)
+    P=10e4,          # Single-axle heavy vehicle load (N), approx. 10 tons
     v=20,            # Vehicle velocity (m/s)
     fs=1000          # Sampling frequency (Hz)
     ):
@@ -102,7 +102,7 @@ def get_response(
 
 if __name__ == '__main__':
     # ================= 1. Get Responses =================
-    t, (s1_qs, s2_qs, s1_dyn, s2_dyn, s1_tot, s2_tot) = get_response()
+    t, (s1_qs, s2_qs, s1_dyn, s2_dyn, s1_tot, s2_tot) = get_response(k=2e6, P=2e4)
 
     # ================= 2. Plot Configuration =================
     plt.figure(figsize=(7.5, 6))
@@ -117,8 +117,9 @@ if __name__ == '__main__':
     plt.plot(t, s2_tot, color='#d62728', linewidth=2.5, label='Total Strain (Beam 2)')
 
     plt.ylabel(r'Mid-span Strain ($\mu\epsilon$)', fontsize=12, weight='bold')
-    plt.legend(loc='upper right', fontsize=11, ncol=2) 
+    plt.legend(loc='upper right', fontsize=11, ncol=1) 
     plt.grid(True, which="both", linestyle=':', alpha=0.6)
+    plt.ylim([-0.4, 10.5])
 
     # Subplot 2: Dynamic Increment
     plt.subplot(2, 1, 2)
@@ -128,6 +129,7 @@ if __name__ == '__main__':
     plt.ylabel(r'Dynamic Increment ($\mu\epsilon$)', fontsize=12, weight='bold')
     plt.legend(loc='upper right', fontsize=11)
     plt.grid(True, which="both", linestyle=':', alpha=0.6)
+    plt.ylim([-0.45, 0.7])
 
     plt.tight_layout()
     plt.savefig('strain_response.pdf', dpi=600, bbox_inches='tight')
