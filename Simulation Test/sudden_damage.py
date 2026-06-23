@@ -101,14 +101,14 @@ def plot_emergency_alert_timeseries(monitor, damage_time_hours, target_joint):
     plt.plot(
         event_times_hours, tot_indicator, 
         color='gray', linewidth=2.5, linestyle='--', alpha=0.8,
-        label='Traditional Indicator (Total Strain)'
+        label=f'Joint {target_joint+1} (Total Strain)'
     )
     
     # Proposed Curve: Pure Dynamic Strain Increment (Showing immediate precipitous responsive drop)
     plt.plot(
         event_times_hours, dyn_indicator, 
         color='#d62728', linewidth=2.5, linestyle='-', 
-        label='Proposed Indicator (Dynamic Increment)'
+        label=f'Joint {target_joint+1} (Dynamic Increment)'
     )
     
     # Draw vertical reference line pinpointing the exact physical moment of catastrophic failure
@@ -120,8 +120,8 @@ def plot_emergency_alert_timeseries(monitor, damage_time_hours, target_joint):
     plt.xlim(0.0, max(event_times_hours) + 0.1)
     plt.ylim(0.0, 1.05)
     
-    plt.xlabel('Continuous Operation Time (Hours)', fontsize=13, fontweight='bold')
-    plt.ylabel('Real-time Indicator Value', fontsize=13, fontweight='bold')
+    plt.xlabel('Time (h)', fontsize=13, fontweight='bold')
+    plt.ylabel('Indicator', fontsize=13, fontweight='bold')
     plt.grid(True, linestyle='--', alpha=0.6)
     plt.legend(loc='lower left', fontsize=11, framealpha=0.9, edgecolor='black')
     
@@ -175,14 +175,14 @@ def plot_all_joints_timeseries(monitor, damage_time_hours, target_joint):
     # Mark the physical moment of sudden failure
     plt.axvline(
         x=damage_time_hours, color='black', linestyle=':', linewidth=2, zorder=0,
-        label='Moment of Failure'
+        label='Moment of Sudden Brittle Failure'
     )
     
     plt.xlim(0.0, max(event_times_hours) + 0.1)
     plt.ylim(0.0, 1.05)
     
-    plt.xlabel('Continuous Operation Time (Hours)', fontsize=13, fontweight='bold')
-    plt.ylabel('Proposed Indicator Value', fontsize=13, fontweight='bold')
+    plt.xlabel('Time (h)', fontsize=13, fontweight='bold')
+    plt.ylabel('Indicator', fontsize=13, fontweight='bold')
     plt.grid(True, linestyle='--', alpha=0.6)
     
     # Adjust legend geometry to avoid crowding and overlapping

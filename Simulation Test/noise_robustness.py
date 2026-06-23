@@ -90,7 +90,7 @@ def plot_noise_robustness(alpha_list, results_dyn, snr_levels, target_joint):
     markers = ['o', 's', '^', 'D', 'v', 'p', '*']
     
     for idx, snr in enumerate(snr_levels):
-        label_str = 'Clean Signal (No Noise)' if snr is None else f'Noisy Signal (SNR = {snr} dB)'
+        label_str = 'No Noise' if snr is None else f'SNR = {snr} dB'
         line_style = '-' if snr is None else '--'
         alpha_val = 1.0 if snr is None else 0.8
         
@@ -103,11 +103,12 @@ def plot_noise_robustness(alpha_list, results_dyn, snr_levels, target_joint):
         
     plt.xlim(0.0, 1.0)
     plt.ylim(0.0, 1.05)
-    plt.xlabel(f'Local Stiffness Reduction Factor of Joint {target_joint+1} ($\\alpha$)', fontsize=12, fontweight='bold')
-    plt.ylabel('Proposed Indicator Value', fontsize=12, fontweight='bold')
+    plt.xlabel(f'Stiffness Reduction Factor of Joint {target_joint+1}', fontsize=12, fontweight='bold')
+    plt.ylabel('Indicator', fontsize=12, fontweight='bold')
     
     plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend(loc='lower left', fontsize=11, framealpha=0.9, edgecolor='black')
+    plt.legend(bbox_to_anchor=(1.05, 1.0), loc='upper left', borderaxespad=0.,
+               fontsize=11, framealpha=0.9, edgecolor='black')
     
     plt.tight_layout()
     plt.savefig('noise_robustness.pdf', dpi=600, bbox_inches='tight')

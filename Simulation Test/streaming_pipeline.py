@@ -244,7 +244,7 @@ class RealTimeBridgeMonitor:
         self.smoothed_indicators_total.append(current_smoothed_total)
 
 
-def plot_single_vehicle_events_overlay(monitor, strain_data, ch_idx=0, plot_minutes=5, out_name=None):
+def plot_single_vehicle_events_overlay(monitor, strain_data, ch_idx=0, plot_minutes=5, xlabel=True, out_name=None):
     """
     Plots the continuous raw strain time history superimposed with high-contrast red highlights
     denoting single-vehicle events captured adaptively by the FSM.
@@ -263,7 +263,7 @@ def plot_single_vehicle_events_overlay(monitor, strain_data, ch_idx=0, plot_minu
     start_idx = min(max(0, start_idx), end_idx)
     time_axis = np.arange(start_idx, end_idx) / Fs
 
-    plt.figure(figsize=(10, 4))
+    # plt.figure(figsize=(8, 4))
     plt.plot(
         time_axis, strain_data[start_idx:end_idx, ch_idx], 
         color='lightgray', linewidth=1.0, label='Raw Strain'
@@ -286,10 +286,8 @@ def plot_single_vehicle_events_overlay(monitor, strain_data, ch_idx=0, plot_minu
         )
         show_legend = False  
         
-    if start_min == 0:
-        plt.xlabel(f'Time (s) [First {end_min} mins]', fontsize=12, weight='bold')
-    else:
-        plt.xlabel(f'Time (s) [From {start_min} to {end_min} mins]', fontsize=12, weight='bold')
+    if xlabel:
+        plt.xlabel(f'Time (s)', fontsize=12, weight='bold')
         
     plt.ylabel(r'Strain ($\mu\epsilon$)', fontsize=12, weight='bold')
     plt.legend(loc='upper right', fontsize=11, framealpha=0.9)
@@ -299,6 +297,22 @@ def plot_single_vehicle_events_overlay(monitor, strain_data, ch_idx=0, plot_minu
     if out_name:
         plt.savefig(out_name, dpi=600, bbox_inches='tight')
     # plt.show()
+
+
+def plot_single_vehicle_events_overlay_concat(monitor, strain_data, ch_idx, plot_minutes, out_name=None):
+
+    plt.figure(figsize=(8, 8))
+
+    # Subplot 1
+    plt.subplot(2, 1, 1)
+    plot_single_vehicle_events_overlay(monitor, strain_data, ch_idx, plot_minutes=plot_minutes[0], xlabel=False)
+    
+    # Subplot 1
+    plt.subplot(2, 1, 2)
+    plot_single_vehicle_events_overlay(monitor, strain_data, ch_idx, plot_minutes=plot_minutes[1])
+
+    if out_name:
+        plt.savefig(out_name, dpi=600, bbox_inches='tight')
 
 
 def plot_single_event_decomposition(monitor, target_event_idx, ch_idx=None, out_name=None):
@@ -318,45 +332,13 @@ def plot_single_event_decomposition(monitor, target_event_idx, ch_idx=None, out_
 
     plt.figure(figsize=(7.5, 5))
     plt.plot(time_axis, target_raw[:, ch_idx], color='black', linewidth=2, linestyle='-', label='Total Strain')
-    plt.plot(time_axis, target_static[:, ch_idx], color='red', linewidth=2, linestyle='--', label='Quasi-Static')
-    plt.plot(time_axis, target_dyn[:, ch_idx], color='blue', linewidth=1.5, linestyle='-', label='Dynamic')
+    plt.plot(time_axis, target_static[:, ch_idx], color='red', linewidth=2, linestyle='--', label='Quasi-Static Strain')
+    plt.plot(time_axis, target_dyn[:, ch_idx], color='blue', linewidth=1.5, linestyle='-', label='Dynamic Increment')
     
     plt.xlabel('Time (s)', fontsize=12, weight='bold')
     plt.ylabel(r'Strain ($\mu\epsilon$)', fontsize=12, weight='bold')
     plt.legend(loc='upper right', fontsize=11) 
     plt.grid(True, which="both", linestyle=':', alpha=0.6)
-    plt.tight_layout()
-    if out_name:
-        plt.savefig(out_name, dpi=600, bbox_inches='tight')
-    # plt.show()
-
-
-def plot_event_dynamic_strains(monitor, target_event_idx, out_name=None):
-    """
-    Plots and superimposes dynamic increments across all recording channels 
-    to facilitate spatial correlation and wave phase analysis.
-    """
-    if target_event_idx >= len(monitor.single_events_dyn):
-        print(f"Error: Target index {target_event_idx} out of range (Total events: {len(monitor.single_events_dyn)}).")
-        return
-        
-    target_dyn = monitor.single_events_dyn[target_event_idx]
-    Fs = monitor.Fs  
-    N_samples, n_channels = target_dyn.shape
-    time_axis = np.arange(N_samples) / Fs
-    
-    plt.figure(figsize=(7.5, 5))
-    for ch in range(n_channels):
-        plt.plot(time_axis, target_dyn[:, ch], linewidth=1.5, alpha=0.85, label=f'Girder {ch + 1}')
-        
-    plt.xlabel('Absolute Global Time (s)', fontsize=12, fontweight='bold')
-    plt.ylabel('Dynamic Strain Increment (με)', fontsize=12, fontweight='bold')
-    plt.xticks(fontsize=11)
-    plt.yticks(fontsize=11)
-    plt.grid(True, which='major', linestyle='-', alpha=0.3)
-    plt.grid(True, which='minor', linestyle=':', alpha=0.2)
-    plt.minorticks_on()
-    plt.legend(loc='upper right', framealpha=0.9, fontsize=11, edgecolor='black')
     plt.tight_layout()
     if out_name:
         plt.savefig(out_name, dpi=600, bbox_inches='tight')
@@ -377,13 +359,13 @@ def plot_indicators_over_time(monitor, target_joint_idx=0, time_unit='hours', ou
     
     if time_unit == 'hours':
         time_axis = end_indices / Fs / 3600.0
-        x_label = 'Time (Hours)'
+        x_label = 'Time (h)'
     elif time_unit == 'minutes':
         time_axis = end_indices / Fs / 60.0
-        x_label = 'Time (Minutes)'
+        x_label = 'Time (min)'
     else:
         time_axis = end_indices / Fs
-        x_label = 'Time (Seconds)'
+        x_label = 'Time (s)'
         
     raw_corrs = np.array(monitor.correlations_history)[:, target_joint_idx]
     smooth_inds = np.array(monitor.smoothed_indicators)[:, target_joint_idx]
@@ -395,10 +377,10 @@ def plot_indicators_over_time(monitor, target_joint_idx=0, time_unit='hours', ou
     plt.scatter(
         time_axis, raw_corrs, 
         color='#1f77b4', s=25, alpha=0.5, marker='o', 
-        label=f'Pearson Correlation Coefficient ({pair_name})'
+        label=f'Joint {target_joint_idx + 1} ({pair_name})'
     )
     plt.xlabel(x_label, fontsize=12, fontweight='bold')
-    plt.ylabel('Correlation', fontsize=12, fontweight='bold')
+    plt.ylabel('Pearson Correlation Coefficient', fontsize=12, fontweight='bold')
     plt.ylim(0.0, 1.05) 
     plt.grid(True, linestyle='--', alpha=0.6)
     plt.legend(loc='lower right', fontsize=11, framealpha=0.9)
@@ -412,7 +394,7 @@ def plot_indicators_over_time(monitor, target_joint_idx=0, time_unit='hours', ou
     plt.plot(
         time_axis, smooth_inds, 
         color='#d62728', linewidth=2.5, 
-        label=f'Smoothed Indicator ({pair_name})'
+        label=f'Joint {target_joint_idx + 1} ({pair_name})'
     )
     plt.xlabel(x_label, fontsize=12, fontweight='bold')
     plt.ylabel('Indicator', fontsize=12, fontweight='bold')
@@ -455,9 +437,9 @@ if __name__ == '__main__':
         Fs=Fs, 
         ma_threshold=2, 
         ma_length_multiple=2.0,
-        low_cutoff_multiplier=0.3,
+        low_cutoff_multiplier=0.7,
         snr_threshold=5, 
-        indicator_smooth_size=100
+        indicator_smooth_size=200
     )
 
     # Stream raw inputs continuously line by line
@@ -474,8 +456,8 @@ if __name__ == '__main__':
     print("="*50 + "\n")
 
     # Execute verification plotting pipeline
-    plot_single_vehicle_events_overlay(monitor, strain_history, ch_idx=0, plot_minutes=[20, 30], out_name='event_extraction_long.png')
-    plot_single_vehicle_events_overlay(monitor, strain_history, ch_idx=0, plot_minutes=[24, 26], out_name='event_extraction_local.png')
+    plot_single_vehicle_events_overlay_concat(
+        monitor, strain_history, ch_idx=0, plot_minutes=[[20, 30], [24, 26]], out_name='event_extraction.pdf')
     plot_single_event_decomposition(monitor, target_event_idx=4, ch_idx=5, out_name='event_decomposition.pdf')
     plot_indicators_over_time(monitor, target_joint_idx=2, time_unit='hours', out_name_raw='PCC_scatter.pdf', out_name_smooth='indicator_line.pdf')
     print("Verification graphics exported successfully.")

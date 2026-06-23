@@ -73,13 +73,13 @@ def plot_window_multiple_robustness(multiple_list, alpha_list, results, target_j
             alpha_list, results[multiple], 
             color=colors[idx % len(colors)], linewidth=2.0, 
             marker=markers[idx % len(markers)], markersize=5, alpha=0.85,
-            label=f'Multiple $n$ = {multiple}'
+            label=f'$n$ = {multiple}'
         )
         
     plt.xlim(0.0, 1.0)
     plt.ylim(0.0, 1.05)
-    plt.xlabel(f'Local Stiffness Reduction Factor of Joint {target_joint+1} ($\\alpha$)', fontsize=12, fontweight='bold')
-    plt.ylabel('Converged Indicator Value', fontsize=12, fontweight='bold')
+    plt.xlabel(f'Stiffness Reduction Factor of Joint {target_joint+1}', fontsize=12, fontweight='bold')
+    plt.ylabel('Indicator', fontsize=12, fontweight='bold')
     
     plt.grid(True, linestyle='--', alpha=0.7)
     plt.legend(loc='lower left', fontsize=11, framealpha=0.9, edgecolor='black')
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     TARGET_JOINT = 0
     
     # Define parametric resolution array for structural stiffness reduction
-    alpha_list = np.linspace(1.0, 0.0, 11) 
+    alpha_list = np.linspace(1.0, 0.0, 21) 
     
     # Execute the core robustness simulation loop
     res_stiffness = compute_window_multiple_robustness(MULTIPLE_LIST, alpha_list, TARGET_JOINT, sim_hours=4)

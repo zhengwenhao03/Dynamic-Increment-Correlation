@@ -82,7 +82,7 @@ def plot_smooth_size_convergence(smooth_sizes, raw_time_axis, raw_pcc_scatters, 
         plt.scatter(
             raw_time_axis, raw_pcc_scatters, 
             color='#1f77b4', s=12, alpha=0.25, marker='o', edgecolors='none',
-            label='Raw Single-Event PCC'
+            label='Single-Event PCC'
         )
         
     # 2. Superimpose continuous indicator curves under different smoothing windows
@@ -97,15 +97,15 @@ def plot_smooth_size_convergence(smooth_sizes, raw_time_axis, raw_pcc_scatters, 
                 color=colors[idx % len(colors)], 
                 linewidth=2.5 if idx >= 2 else 1.0, 
                 linestyle=line_styles[idx % len(line_styles)], 
-                label=rf'Smooth Size $N_s = {size}$'  # Used raw string 'rf' to prevent syntax warning
+                label=rf'$N = {size}$'  # Used raw string 'rf' to prevent syntax warning
             )
             
-    plt.xlabel('Time (Hours)', fontsize=12, fontweight='bold')
-    plt.ylabel('Dynamic Correlation Indicator', fontsize=12, fontweight='bold')
+    plt.xlabel('Time (h)', fontsize=12, fontweight='bold')
+    plt.ylabel('Indicator', fontsize=12, fontweight='bold')
     plt.xlim(0.0, sim_hours)
     plt.ylim(0.9, 1.0)
     plt.grid(True, linestyle='--', alpha=0.5)
-    plt.legend(loc='lower left', fontsize=10, framealpha=0.9, edgecolor='black', ncol=2)
+    plt.legend(loc='upper right', fontsize=10, framealpha=0.9, edgecolor='black', ncol=2)
     plt.tight_layout()
     
     plt.savefig('smooth_size_convergence.pdf', dpi=600, bbox_inches='tight')
@@ -191,17 +191,18 @@ def plot_smooth_size_sudden_damage(smooth_sizes, results_curves, hours):
                 color=colors[idx % len(colors)], 
                 linewidth=2.5 if idx >= 2 else 1.0,
                 linestyle=line_styles[idx % len(line_styles)], 
-                label=rf'Smooth Size $N_s = {size}$'  # Used raw string 'rf' to prevent syntax warning
+                label=rf'$N = {size}$'  # Used raw string 'rf' to prevent syntax warning
             )
     
     damage_time = hours[0]  # The exact time of sudden damage induction
     total_hours = sum(hours)  # Total simulation timeline
 
     # Add explicit vertical boundary indicating sudden crack/damage induction
-    plt.axvline(x=damage_time, color='black', linestyle=':', linewidth=2.0, label='Sudden Damage Anomaly')
+    plt.axvline(x=damage_time, color='black', linestyle=':', linewidth=2.0, 
+                label='Moment of Sudden Brittle Failure')
     
-    plt.xlabel('Time (Hours)', fontsize=12, fontweight='bold')
-    plt.ylabel('Smoothed Dynamic Indicator', fontsize=12, fontweight='bold')
+    plt.xlabel('Time (h)', fontsize=12, fontweight='bold')
+    plt.ylabel('Indicator', fontsize=12, fontweight='bold')
     plt.xlim(0.0, total_hours)
     plt.ylim(0.9, 1.0)
     plt.grid(True, linestyle='--', alpha=0.5)

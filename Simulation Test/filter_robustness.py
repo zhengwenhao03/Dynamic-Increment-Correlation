@@ -151,11 +151,11 @@ def plot_absolute_filter_robustness(cutoff_list, alpha_list, results, target_joi
         
     plt.xlim(0.0, 1.0)
     plt.ylim(0.0, 1.05)
-    plt.xlabel(f'Local Stiffness Reduction Factor of Joint {target_joint+1} ($\\alpha$)', fontsize=12, fontweight='bold')
-    plt.ylabel('Converged Indicator Value', fontsize=12, fontweight='bold')
+    plt.xlabel(f'Stiffness Reduction Factor of Joint {target_joint+1}', fontsize=12, fontweight='bold')
+    plt.ylabel('Indicator', fontsize=12, fontweight='bold')
     
     plt.grid(True, linestyle='--', alpha=0.7)
-    plt.legend(loc='lower left', fontsize=10, framealpha=0.9, edgecolor='black', ncol=1)
+    plt.legend(loc='upper right', fontsize=10, framealpha=0.9, edgecolor='black', ncol=1)
     
     plt.tight_layout()
     plt.savefig('filter_absolute_robustness.pdf', dpi=600, bbox_inches='tight')
@@ -167,7 +167,7 @@ if __name__ == '__main__':
     CUTOFF_LIST = [2.0, 3.0, 4.0, 5.0]
     
     # 2. Configure structural degradation array
-    alpha_list = np.linspace(1.0, 0.0, 11) 
+    alpha_list = np.linspace(1.0, 0.0, 21) 
     TARGET_JOINT = 0
     
     # 3. Execute parametric execution loop

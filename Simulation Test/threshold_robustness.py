@@ -72,13 +72,13 @@ def plot_threshold_robustness(threshold_list, alpha_list, results, target_joint)
             alpha_list, results[thresh], 
             color=colors[idx % len(colors)], linewidth=2.0, 
             marker=markers[idx % len(markers)], markersize=5, alpha=0.85,
-            label=f'Threshold $\\gamma$ = {thresh}'
+            label=f'$\\gamma$ = {thresh}'
         )
         
     plt.xlim(0.0, 1.0)
     plt.ylim(0.0, 1.05)
-    plt.xlabel(f'Local Stiffness Reduction Factor of Joint {target_joint+1} ($\\alpha$)', fontsize=12, fontweight='bold')
-    plt.ylabel('Converged Indicator Value', fontsize=12, fontweight='bold')
+    plt.xlabel(f'Stiffness Reduction Factor of Joint {target_joint+1}', fontsize=12, fontweight='bold')
+    plt.ylabel('Indicator', fontsize=12, fontweight='bold')
     
     plt.grid(True, linestyle='--', alpha=0.7)
     plt.legend(loc='lower left', fontsize=11, framealpha=0.9, edgecolor='black')
@@ -156,10 +156,10 @@ def plot_threshold_convergence(threshold_list, results_convergence):
             plt.plot(
                 time_axis[valid_mask], smooth_inds[valid_mask], 
                 color=colors[idx % len(colors)], linewidth=2.5, linestyle=line_styles[idx % len(line_styles)], 
-                alpha=0.9, label=f'Threshold $\\gamma$ = {thresh}'
+                alpha=0.9, label=f'$\\gamma$ = {thresh}'
             )
             
-    plt.xlabel('Time (Hours)', fontsize=12, fontweight='bold')
+    plt.xlabel('Time (h)', fontsize=12, fontweight='bold')
     plt.ylabel('Indicator', fontsize=12, fontweight='bold')
     
     # Due to the presence of damage (k=3e6), the indicator convergence value will fall between 0.8 and 0.9. Dynamically adjust the Y-axis range to highlight the comparison.
@@ -184,7 +184,7 @@ if __name__ == '__main__':
     # Execute Task 1: Stiffness degradation trajectory comparison
     # ==========================================
     # Utilize 11 calculation nodes to ensure physical waveform accuracy while controlling script execution time
-    alpha_list = np.linspace(1.0, 0.0, 11) 
+    alpha_list = np.linspace(1.0, 0.0, 21) 
     res_stiffness = compute_threshold_robustness(THRESHOLD_LIST, alpha_list, TARGET_JOINT, sim_hours=4)
     plot_threshold_robustness(THRESHOLD_LIST, alpha_list, res_stiffness, TARGET_JOINT)
     
