@@ -111,8 +111,8 @@ if __name__ == '__main__':
 
     # Subplot 1: Total Strain vs. Quasi-Static Baseline
     plt.subplot(2, 1, 1)
-    plt.plot(t, s1_qs, color='#1f77b4', linewidth=2.5, linestyle='--', label='QS Baseline (Beam 1)')
-    plt.plot(t, s2_qs, color='#d62728', linewidth=2.5, linestyle='--', label='QS Baseline (Beam 2)')
+    plt.plot(t, s1_qs, color='#1f77b4', linewidth=2.5, linestyle='--', label='Quasi-static Strain (Beam 1)')
+    plt.plot(t, s2_qs, color='#d62728', linewidth=2.5, linestyle='--', label='Quasi-static Strain (Beam 2)')
     plt.plot(t, s1_tot, color='#1f77b4', linewidth=2.5, label='Total Strain (Beam 1)')
     plt.plot(t, s2_tot, color='#d62728', linewidth=2.5, label='Total Strain (Beam 2)')
 
@@ -126,7 +126,7 @@ if __name__ == '__main__':
     plt.plot(t, s1_dyn, color='#1f77b4', linewidth=2.5, label='Dynamic Increment (Beam 1)')
     plt.plot(t, s2_dyn, color='#d62728', linewidth=2.5, linestyle='--', label='Dynamic Increment (Beam 2)')
     plt.xlabel('Time (s)', fontsize=12, weight='bold')
-    plt.ylabel(r'Dynamic Increment ($\mu\epsilon$)', fontsize=12, weight='bold')
+    plt.ylabel(r'Mid-span Strain ($\mu\epsilon$)', fontsize=12, weight='bold')
     plt.legend(loc='upper right', fontsize=11)
     plt.grid(True, which="both", linestyle=':', alpha=0.6)
     plt.ylim([-0.45, 0.7])

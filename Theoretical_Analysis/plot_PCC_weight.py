@@ -49,7 +49,7 @@ def plot_pcc_weight_evolution():
     # =========================================================================
     # 3. Post-processing and Figure Export Settings
     # =========================================================================
-    plt.xlabel('Transverse Connection Stiffness $k$ (N/m$^2$) - Log Scale', fontsize=12, weight='bold')
+    plt.xlabel('Transverse Connection Stiffness $k$ (N/m$^2$)', fontsize=12, weight='bold')
     plt.ylabel('Pearson Correlation Coefficient', fontsize=12, weight='bold')
 
     plt.xlim(10**4, 10**8)

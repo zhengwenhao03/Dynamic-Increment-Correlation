@@ -37,11 +37,11 @@ def plot_pcc_stiffness_evolution():
     # Plot the Dynamic Increment Correlation curve 
     # Set high zorder to ensure it sits on top of the background color blocks
     plt.semilogx(k_values, pcc_dyn_list, '#d62728', linewidth=2.5, linestyle='-', 
-                 label='Dynamic Increment Correlation', zorder=3)
+                 label='Dynamic Increment', zorder=3)
     plt.semilogx(k_values, pcc_total_list, '#1f77b4', linewidth=2.5, linestyle='--', 
-                 label='Total Strain Correlation', zorder=3)
+                 label='Total Strain', zorder=3)
 
-    plt.xlabel('Transverse Connection Stiffness $k$ (N/m$^2$) - Log Scale', fontsize=12, weight='bold')
+    plt.xlabel('Transverse Connection Stiffness $k$ (N/m$^2$)', fontsize=12, weight='bold')
     plt.ylabel('Pearson Correlation Coefficient', fontsize=12, weight='bold')
 
     # =========================================================================
