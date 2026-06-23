@@ -49,6 +49,6 @@ The repository is structured into two standalone modules corresponding to the th
     ├── simulation_strain.py # High-efficiency strain modal superposition solver
     ├── streaming_pipeline.py# Real-time FSM edge engine processing live sensor streams
     ├── global_degradation.py# Scenario A: Global uniform joint deterioration tracks
-    ├── single_degradation.py# Scenario B: Localized damage localization & immunity checks
+    ├── local_degradation.py# Scenario B: Localized damage localization & immunity checks
     ├── sudden_damage.py     # Scenario C: Time-domain stitched sudden brittle snapping alerts
     └── noise_robustness.py  # Scenario D: Performance convergence under multi-tier sensor noise
